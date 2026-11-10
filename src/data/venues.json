@@ -1,0 +1,26 @@
+{
+  "source": "Addresses from each venue's page under festival.idfa.nl/en/landing-pages/locaties (read 9 Nov 2026). Coordinates from PDOK Locatieserver for that address. stepFree: true when the venue page says it is wheelchair accessible, false when it says it is not, null when it says nothing yet.",
+  "venues": [
+    { "id": "tuschinski", "name": "Pathé Tuschinski", "short": "Tuschinski", "address": "Reguliersbreestraat 26", "lat": 52.36652, "lng": 4.89464, "stepFree": true, "page": "koniklijk-theater-pathe-tuschinski", "halls": ["Tuschinski "] },
+    { "id": "city", "name": "Pathé City", "short": "Pathé City", "address": "Kleine-Gartmanplantsoen 15-19", "lat": 52.36337, "lng": 4.88383, "stepFree": true, "page": "pathé-city", "halls": ["Pathé City "] },
+    { "id": "balie", "name": "De Balie", "short": "De Balie", "address": "Kleine-Gartmanplantsoen 10", "lat": 52.36309, "lng": 4.88275, "stepFree": true, "page": "de-balie", "halls": ["De Balie"] },
+    { "id": "brakke-grond", "name": "De Brakke Grond", "short": "Brakke Grond", "address": "Nes 45", "lat": 52.37115, "lng": 4.89386, "stepFree": null, "page": "vlaams-cultuurhuis-de-brakke-grond", "halls": ["de Brakke Grond"] },
+    { "id": "eye", "name": "Eye Filmmuseum", "short": "Eye", "address": "IJpromenade 1", "lat": 52.38414, "lng": 4.90129, "stepFree": true, "page": "eye-filmmuseum", "halls": ["Eye: "] },
+    { "id": "kriterion", "name": "Kriterion", "short": "Kriterion", "address": "Roetersstraat 170", "lat": 52.36255, "lng": 4.91073, "stepFree": true, "page": "kriterion", "halls": ["Kriterion"] },
+    { "id": "ketelhuis", "name": "Het Ketelhuis", "short": "Ketelhuis", "address": "Pazzanistraat 4", "lat": 52.38629, "lng": 4.87352, "stepFree": true, "page": "het-ketelhuis", "halls": ["Ketelhuis"] },
+    { "id": "rialto-pijp", "name": "Rialto De Pijp", "short": "Rialto De Pijp", "address": "Ceintuurbaan 338", "lat": 52.35299, "lng": 4.89388, "stepFree": true, "page": "rialto-de-pijp", "halls": ["Rialto De Pijp"] },
+    { "id": "rialto-silo", "name": "Rialto SILO", "short": "Rialto SILO", "address": "Faas Wilkesstraat 102A", "lat": 52.37213, "lng": 4.96933, "stepFree": null, "page": "rialto-silo", "halls": ["Rialto SILO"] },
+    { "id": "rialto-vu", "name": "Rialto VU Griffioen", "short": "Rialto VU", "address": "De Boelelaan 1111", "lat": 52.33489, "lng": 4.86442, "stepFree": true, "page": "rialto-vu-griffioen", "halls": ["Rialto VU"] },
+    { "id": "pulse", "name": "Cinema The Pulse", "short": "The Pulse", "address": "Hildegard von Bingenstraat 4", "lat": 52.33744, "lng": 4.86640, "stepFree": true, "page": "cinema-the-pulse", "halls": ["The Pulse"] },
+    { "id": "noord", "name": "Pathé Noord", "short": "Pathé Noord", "address": "Buikslotermeerplein 2003", "lat": 52.40086, "lng": 4.93442, "stepFree": true, "page": "pathé-noord", "halls": ["Pathé Noord"] },
+    { "id": "vlugt", "name": "Cinema De Vlugt", "short": "De Vlugt", "address": "Burgemeester de Vlugtlaan 125", "lat": 52.38004, "lng": 4.82710, "stepFree": true, "page": "cinema-de-vlugt", "halls": ["Cinema De Vlugt"] },
+    { "id": "mozaiek", "name": "Podium Mozaïek", "short": "Mozaïek", "address": "Bos en Lommerweg 191", "lat": 52.38008, "lng": 4.85413, "stepFree": true, "page": "podium-mozaïek", "halls": ["Podium Mozaïek"] },
+    { "id": "carre", "name": "Koninklijk Theater Carré", "short": "Carré", "address": "Amstel 115-125", "lat": 52.36231, "lng": 4.90394, "stepFree": true, "page": "koninklijk-theater-carré", "halls": ["Carré"] },
+    { "id": "opera", "name": "Nationale Opera & Ballet", "short": "Studio Boekman", "address": "Amstel 3", "lat": 52.36756, "lng": 4.90039, "stepFree": true, "page": "nationale-opera-ballet", "halls": ["Nationale Opera"] },
+    { "id": "droog", "name": "@droog", "short": "@droog", "address": "Staalstraat 7B", "lat": 52.36833, "lng": 4.89738, "stepFree": true, "page": "droog", "halls": ["@droog"] },
+    { "id": "casa-rosso", "name": "Casa Rosso", "short": "Casa Rosso", "address": "Oudezijds Achterburgwal 106-108", "lat": 52.37264, "lng": 4.89785, "stepFree": false, "page": "cafe-rosso", "halls": ["Casa Rosso"] },
+    { "id": "entr", "name": "ENTR VR Museum", "short": "ENTR", "address": "Oosterdokskade 131b", "lat": 52.37605, "lng": 4.90733, "stepFree": true, "page": "entr-vr-museum", "halls": ["ENTR"] },
+    { "id": "paviljoen", "name": "Het Documentaire Paviljoen", "short": "Doc. Paviljoen", "address": "Vondelpark 3", "lat": 52.36105, "lng": 4.87497, "stepFree": true, "page": "het-documentaire-paviljoen", "halls": ["Het Documentaire Paviljoen"] },
+    { "id": "artis", "name": "ARTIS-Planetarium", "short": "Planetarium", "address": "Plantage Kerklaan 38-40", "lat": 52.36696, "lng": 4.91258, "stepFree": true, "page": "artis-planetarium-2", "halls": ["ARTIS"] }
+  ]
+}

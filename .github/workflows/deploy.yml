@@ -1,0 +1,57 @@
+# Builds DocuHop and publishes it to GitHub Pages (custom domain docuhop.arian-shafa.xyz).
+# While a PAUSED file exists (scripts/pause.sh on), it publishes only the short notice page from pause/ instead.
+# Needs repository variables VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY (the public key, not a secret).
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Paused?
+        id: mode
+        run: if [ -f PAUSED ]; then echo "paused=true" >> "$GITHUB_OUTPUT"; else echo "paused=false" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Build the notice page only
+        if: steps.mode.outputs.paused == 'true'
+        run: node scripts/build-pause.mjs dist
+      - if: steps.mode.outputs.paused != 'true'
+        run: npm ci
+      - name: Stop when the backend is not configured
+        if: steps.mode.outputs.paused != 'true' && (vars.VITE_SUPABASE_URL == '' || vars.VITE_SUPABASE_PUBLISHABLE_KEY == '')
+        run: echo "::error::Set the VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY repository variables." && exit 1
+      - if: steps.mode.outputs.paused != 'true'
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
