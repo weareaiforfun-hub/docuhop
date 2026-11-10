@@ -256,7 +256,7 @@ export function YourData() {
     </section>
     <section>
       <h3>Services involved</h3>
-      <p>Supabase stores the plans (in Frankfurt, in the EU), Google Fonts serves the fonts, unpkg serves the map code and PDOK (the Dutch government’s map service) serves the map. Like any website, they see your IP address when your browser loads from them.</p>
+      <p>GitHub Pages hosts the site, Supabase stores the plans (in Frankfurt, in the EU), Google Fonts serves the fonts, unpkg serves the map code and PDOK (the Dutch government’s map service) serves the map. Like any website, they see your IP address when your browser loads from them.</p>
     </section>
     <p className="help-note">{UNOFFICIAL} Email <a href={CONTACT}>{CONTACT_EMAIL}</a> to have your data deleted sooner.</p>
   </div>;

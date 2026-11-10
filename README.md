@@ -69,7 +69,6 @@ deletion on 23 Dec 2026. To remove them sooner, delete the `dh_` groups (ask fir
 ## Deploy
 GitHub Pages through Actions (`.github/workflows/deploy.yml`) from `main`, with repository variables `VITE_SUPABASE_URL`
 and `VITE_SUPABASE_PUBLISHABLE_KEY`; Pages source "GitHub Actions"; custom domain `docuhop.arian-shafa.xyz`
-(`public/CNAME`, plus a CNAME record `docuhop` → `weareaiforfun-hub.github.io`). Add "GitHub Pages hosts the site" to the
-Your data page when it goes live.
+(`public/CNAME`, plus a CNAME record `docuhop` → `weareaiforfun-hub.github.io`).
 
 A project by [Arian Shafa](https://arian-shafa.xyz).
