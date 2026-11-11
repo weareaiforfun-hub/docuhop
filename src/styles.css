@@ -49,7 +49,10 @@ h1, h2, h3, h4 { margin: 0; }
 .sync-pill { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 9px; border: 1px solid var(--g); color: var(--g); font: 600 12px var(--mono); white-space: nowrap; }
 .sync-pill i { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 .sync-pill.saving { border-color: var(--y); color: var(--y); } .sync-pill.offline { border-color: var(--r); color: var(--r); }
-.panel-head .sync-pill { max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
+/* Header: nothing squeezes except the logo; in a group the logo drops its date line so LIVE, INVITE, ? and you fit. */
+.panel-head > * { flex-shrink: 0; }
+.panel-head .brand { flex-shrink: 1; min-width: 0; }
+.panel-head.signed-in .brand small { display: none; }
 
 /* ---------- the layout: map left, panel right ---------- */
 .app { display: grid; grid-template-columns: minmax(0, 1fr) 420px; height: 100vh; height: 100dvh; overflow: hidden; }
@@ -124,9 +127,10 @@ h1, h2, h3, h4 { margin: 0; }
 .brand small { font: 500 11px/1.2 var(--mono); color: var(--soft); letter-spacing: 0; white-space: nowrap; }
 .vf-help { display: none; }
 .spacer { flex: 1; }
-.link-button { padding: 0 4px; }
-.link-button .avatar { width: 26px; height: 26px; font-size: 10.5px; }
-.help-button { width: 34px; padding: 0; font-size: 15px; }
+.link-button { width: 34px; padding: 0; border: 0; border-radius: 50%; }
+.link-button .avatar { width: 34px; height: 34px; font-size: 12px; box-shadow: 0 0 0 1px #0006 inset; }
+.link-button:hover .avatar, .link-button:focus-visible .avatar { box-shadow: 0 0 0 2px var(--ink); }
+.help-button { width: 34px; min-width: 34px; padding: 0; font-size: 15px; }
 .error-banner { margin: 0 22px 8px; background: #3a1512; border: 1px solid var(--r); padding: 8px 10px; display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; }
 .error-banner button { background: none; border: 0; margin-left: auto; }
 .controls { padding: 0 22px; display: flex; flex-direction: column; gap: 9px; }

@@ -65,7 +65,7 @@ export default function App() {
   const [note, setNote] = useState(""), [selected, setSelected] = useState<Item | null>(null), [focus, setFocus] = useState<string | null>(null), [fit, setFit] = useState(0);
   const [busy, setBusy] = useState(false), [error, setError] = useState(""), [toast, setToast] = useState(""), [undo, setUndo] = useState<Undo | null>(null), [nameDialog, setNameDialog] = useState(false);
   const [previewStops, setPreviewStops] = useState<UiStop[] | null>(null), [previewId, setPreviewId] = useState<string | null>(null);
-  const [pendingIdea, setPendingIdea] = useState<string | null>(null), [pendingAdd, setPendingAdd] = useState<string | null>(null), [helpOpen, setHelpOpen] = useState(false), [helpTab, setHelpTab] = useState<HelpTab>("help");
+  const [pendingIdea, setPendingIdea] = useState<string | null>(null), [pendingAdd, setPendingAdd] = useState<string | null>(null), [pendingWhere, setPendingWhere] = useState<Target>("personal"), [helpOpen, setHelpOpen] = useState(false), [helpTab, setHelpTab] = useState<HelpTab>("help");
   const [ridesOpen, setRidesOpen] = useState(false), [layers, setLayers] = useState(() => new Set(MODES.filter((m) => m.on).map((m) => m.id)));
   const [hideVenues, setHideVenues] = useState(false), [ride, setRide] = useState<{ mode: string; stop: number } | null>(null);
   const shownModes = useMemo(() => (ridesOpen ? MODES.filter((m) => layers.has(m.id)) : []), [ridesOpen, layers]);
@@ -166,7 +166,7 @@ export default function App() {
   function addTo(id: string, where: Target = target) {
     const e = byId.get(id);
     if (!e) return;
-    if (!identity || !night) { setPendingAdd(id); setNameDialog(true); return; }
+    if (!identity || !night) { setPendingAdd(id); setPendingWhere(where); setNameDialog(true); return; }
     const clash = !fits(where === "shared" ? route : where === "crew" ? crewStops : myRoute, e);
     const suffix = clash ? " · it clashes, see your shot list" : "";
     track("stop-add", { route: where, clash });
@@ -175,8 +175,8 @@ export default function App() {
     else if (night.mine) run(addStopOps(night.mine, myRoute, id, addExtra(id)), `Added ${title(id)} to your shot list${suffix}`);
     else run(personalRouteOps(identity.night_id, userId, undefined, identity.display_name + "’s shot list", [stopFor(e)]).ops, `Added ${title(id)} to your shot list`);
   }
-  function removeFrom(id: string) {
-    const s = list.find((x) => x.id === id);
+  function removeFrom(id: string, where: Target = target) {
+    const s = (where === "shared" ? route : where === "crew" ? crewStops : myRoute).find((x) => x.id === id);
     if (s?.rowId) run([{ t: "delete", table: "dh_stops", id: s.rowId }], `Removed ${title(id)}`);
   }
   /** Sets, changes or (with null) clears my reaction to a showing. */
@@ -232,7 +232,7 @@ export default function App() {
   useEffect(() => {
     if (!identity || !night) return;
     if (pendingIdea) { const id = pendingIdea; setPendingIdea(null); adoptSuggested(id); }
-    if (pendingAdd) { const id = pendingAdd; setPendingAdd(null); addTo(id, "personal"); }
+    if (pendingAdd) { const id = pendingAdd; setPendingAdd(null); addTo(id, pendingWhere === "shared" && night?.shared ? "shared" : "personal"); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [identity?.id, night?.night?.id]);
   async function enter() {
@@ -406,7 +406,7 @@ export default function App() {
       <button className="sheet-handle" aria-label={"Panel height: " + sheet + ". Change"} onClick={() => setSheet(sheet === "peek" ? "half" : sheet === "half" ? "full" : "peek")}
         onPointerDown={(e) => { sheetDrag.current = { y: e.clientY, at: sheet }; }}
         onPointerUp={(e) => { const d = sheetDrag.current; sheetDrag.current = null; if (!d || Math.abs(e.clientY - d.y) < 30) return; e.preventDefault(); const order: Sheet[] = ["peek", "half", "full"]; const i = order.indexOf(d.at) + (e.clientY < d.y ? 1 : -1); setSheet(order[Math.max(0, Math.min(2, i))]); }}><i /></button>
-      <header className="panel-head">
+      <header className={"panel-head" + (identity ? " signed-in" : "")}>
         <a href="./" className="brand an" aria-label="DocuHop home">DOCUHOP<small>IDFA<br />12–22 Nov</small></a>
         <span className="spacer" />
         {identity && <SyncPill status={status} compact />}
@@ -533,10 +533,15 @@ export default function App() {
         <span className="eyebrow">{dayInfo(selected.day).label.toUpperCase()} · {selected.hall.toUpperCase()}</span><h2 className="an">{selected.title}</h2>
         <ActivityInfo item={selected} me={loc.spot} />
         <div className="detail-actions">
-          {list.some((s) => s.id === selected.id) ? <button className="btn ghost" onClick={() => removeFrom(selected.id)}><Check size={16} />In {listTitle.toLowerCase()} · remove</button>
-            : <button className="btn" onClick={() => addTo(selected.id)}><Plus size={16} />Add to {listTitle.toLowerCase()}</button>}
-          {identity && target !== "shared" && night?.shared && !route.some((s) => s.id === selected.id) && <button className="btn ghost" onClick={() => addTo(selected.id, "shared")}>+ Our shot list</button>}
-          {identity && target !== "personal" && !myRoute.some((s) => s.id === selected.id) && <button className="btn ghost" onClick={() => addTo(selected.id, "personal")}>+ Mine</button>}
+          {(!identity || (canEditShared && night?.shared)) && (route.some((s) => s.id === selected.id)
+            ? <button className="btn ghost" onClick={() => removeFrom(selected.id, "shared")}><Check size={16} />In our shot list · remove</button>
+            : <button className="btn" onClick={() => addTo(selected.id, "shared")}><Plus size={16} />Add to our shot list</button>)}
+          {myRoute.some((s) => s.id === selected.id)
+            ? <button className="btn ghost" onClick={() => removeFrom(selected.id, "personal")}><Check size={16} />In my shot list · remove</button>
+            : <button className="btn ghost" onClick={() => addTo(selected.id, "personal")}><Plus size={16} />Add to my shot list</button>}
+          {target === "crew" && crewRoute && (crewStops.some((s) => s.id === selected.id)
+            ? <button className="btn ghost" onClick={() => removeFrom(selected.id, "crew")}><Check size={16} />In {myCrewName}’s shot list · remove</button>
+            : <button className="btn ghost" onClick={() => addTo(selected.id, "crew")}><Plus size={16} />Add to {myCrewName}’s shot list</button>)}
           <a className="btn ghost" href={selected.url} target="_blank" rel="noreferrer" onClick={() => track("idfa-page")}>TICKETS ON IDFA<ArrowUpRight size={14} /></a>
         </div>
         {!fits(list.filter((s) => s.id !== selected.id), selected) && <p className="time-warning">Clashes with something in {listTitle.toLowerCase()}, or there’s not enough time to get there.</p>}
