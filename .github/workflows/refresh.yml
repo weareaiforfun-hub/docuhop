@@ -1,0 +1,65 @@
+# Refreshes IDFA's public programme once a day, facts only (scripts/refresh-idfa.mjs): a headless browser loads
+# festival.idfa.nl/en/collectie/ day by day, 3–4 seconds apart, the way a visitor's filter clicks would. It never calls
+# IDFA's API itself and never reads ticket data. The script refuses a second fresh capture within 12 hours and refuses
+# to save when many screenings vanish at once. Commits the new snapshot (so the site's "last checked" time moves on),
+# then publishes. Skipped while the site is paused, and after IDFA.
+name: Refresh programme
+
+on:
+  schedule:
+    - cron: "10 5 * * *" # 06:10 in Amsterdam
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Capture even if the last one is under 12 hours old"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Skip while paused or after IDFA
+        id: skip
+        run: |
+          if [ -f PAUSED ] || [ "$(date -u +%Y%m%d)" -gt 20261122 ]; then echo "skip=true" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-node@v4
+        if: steps.skip.outputs.skip != 'true'
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install (plus a headless browser, for this job only)
+        if: steps.skip.outputs.skip != 'true'
+        run: npm ci && npm i --no-save playwright@1.64.1 && npx playwright install --with-deps chromium
+      - name: Capture the programme
+        if: steps.skip.outputs.skip != 'true'
+        run: node scripts/refresh-idfa.mjs ${{ inputs.force && '--force' || '' }}
+      - name: Check it builds
+        if: steps.skip.outputs.skip != 'true'
+        run: npx tsc -b
+      - name: Commit the new snapshot
+        id: commit
+        if: steps.skip.outputs.skip != 'true'
+        run: |
+          [ -z "$(git status --porcelain -- data-raw src/data/programme.json)" ] && { echo "Nothing new."; exit 0; }
+          git config user.name "docuhop-refresh"
+          git config user.email "docuhop-refresh@users.noreply.github.com"
+          git add data-raw src/data/programme.json && git commit -m "Programme refresh $(date -u +%Y-%m-%d)" && git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+  publish:
+    needs: refresh
+    if: needs.refresh.outputs.changed == 'true'
+    uses: ./.github/workflows/deploy.yml

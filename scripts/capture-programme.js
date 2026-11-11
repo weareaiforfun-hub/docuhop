@@ -11,7 +11,8 @@
 // Save it as data-raw/idfa-YYYY-MM-DD.json and run `npm run programme` (which refuses any row carrying ticket data).
 (async () => {
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-  const DAYS = Array.from({ length: 11 }, (_, i) => `2026-11-${String(12 + i).padStart(2, "0")}`);
+  // All 11 days, or only the ones scripts/refresh-idfa.mjs asks for (window.__DAYS), so past days aren't reloaded.
+  const DAYS = window.__DAYS ?? Array.from({ length: 11 }, (_, i) => `2026-11-${String(12 + i).padStart(2, "0")}`);
   const T0 = Date.parse("2026-11-11T23:00:00Z"); // Thu 12 Nov 00:00 in Amsterdam (UTC+1)
 
   // The page's own data cache (React Query), found through React's tree.

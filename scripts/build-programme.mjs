@@ -37,7 +37,7 @@ try {
   const now = new Map(showings.map((s) => [s[0], s]));
   const added = [...now.keys()].filter((id) => !old.has(id)), removed = [...old.keys()].filter((id) => !now.has(id));
   const moved = [...now.keys()].filter((id) => old.has(id) && (old.get(id)[2] !== now.get(id)[2] || old.get(id)[3] !== now.get(id)[3] || old.get(id)[5] !== now.get(id)[5]));
-  const show = (s) => `${s[1]} (${s[5]}, day ${Math.floor(s[2] / 1440) + 12} Nov ${String(Math.floor((s[2] % 1440) / 60)).padStart(2, "0")}:${String(s[2] % 60).padStart(2, "0")})`;
+  const show = (s) => `${s[1]} (${s[5]}, day ${Math.floor(s[2] / 1440) + 12} Nov ${String(Math.floor((s[2] % 1440) / 60)).padStart(2, "0")}:${String(s[2] % 60).padStart(2, "0")}, ${s[3]} min)`;
   changes = `changes: ${added.length} new, ${removed.length} gone, ${moved.length} moved`
     + removed.map((id) => "\n  gone:  " + show(old.get(id))).join("") + moved.map((id) => "\n  moved: " + show(old.get(id)) + " → " + show(now.get(id))).join("");
 } catch { /* first build */ }
