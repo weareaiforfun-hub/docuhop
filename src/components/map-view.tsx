@@ -49,7 +49,7 @@ export function MapView({ visible, lines, onSelect, focus, fit, transport, me, l
         await loadLeaflet();
         if (disposed || !element.current) return;
         const L = (window as any).L;
-        map.current = L.map(element.current, { zoomControl: false, minZoom: 10, maxZoom: 19, maxBounds: [[52.23, 4.68], [52.48, 5.1]] }).setView([52.368, 4.895], 14);
+        map.current = L.map(element.current, { zoomControl: false, zoomSnap: 0.25, zoomDelta: 0.5, wheelPxPerZoomLevel: 90, wheelDebounceTime: 15, minZoom: 10, maxZoom: 19, maxBounds: [[52.23, 4.68], [52.48, 5.1]] }).setView([52.368, 4.895], 14);
                 let tileFailures = 0;
         const tiles = L.tileLayer("https://service.pdok.nl/kadaster/brt-achtergrondkaart/wmts/v2_0/pastel/EPSG:3857/{z}/{x}/{y}.png", { attribution: '<a href="https://www.pdok.nl/">Kadaster / PDOK</a> · BRT Achtergrondkaart', maxZoom: 19 });
         tiles.on("tileerror", () => { if (++tileFailures > 6) setError("Map tiles could not load. You can still browse the programme and open directions."); });

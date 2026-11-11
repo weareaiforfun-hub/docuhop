@@ -59,14 +59,16 @@ h1, h2, h3, h4 { margin: 0; }
 .map-panel { position: relative; overflow: hidden; background: var(--map); min-height: 0; }
 .map-canvas { position: absolute; inset: 0; background: var(--map); }
 .map-panel .leaflet-container { background: var(--map); font: 13px var(--mono); }
-.map-panel .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) saturate(.35) brightness(.85) contrast(1.1); }
+/* Dark map, filtered per tile (not on the whole pane) so zooming stays smooth: the browser filters each tile once
+   instead of the whole map on every animation frame. Light enough to read streets, canals, parks and neighbourhoods. */
+.map-panel .leaflet-tile { filter: invert(1) hue-rotate(180deg) saturate(.6) brightness(1.25) contrast(.95); }
 .map-panel .leaflet-control-attribution { display: none; }
 .map-error { position: absolute; left: 50%; top: 45%; transform: translateX(-50%); background: var(--panel); border: 1px solid var(--r); padding: 10px 14px; z-index: 600; max-width: 80%; }
 .viewfinder { position: absolute; inset: 0; pointer-events: none; z-index: 450; }
 .viewfinder .c { position: absolute; width: 44px; height: 44px; border: 0 solid var(--ink); opacity: .9; }
 .c.tl { left: 26px; top: 26px; border-top-width: 3px; border-left-width: 3px; } .c.tr { right: 26px; top: 26px; border-top-width: 3px; border-right-width: 3px; }
 .c.bl { left: 26px; bottom: 26px; border-bottom-width: 3px; border-left-width: 3px; } .c.br { right: 26px; bottom: 26px; border-bottom-width: 3px; border-right-width: 3px; }
-.vignette { position: absolute; inset: 0; box-shadow: inset 0 0 120px #000; }
+.vignette { position: absolute; inset: 0; box-shadow: inset 0 0 80px #000a; }
 .vf-top { position: absolute; left: 44px; right: 44px; top: 40px; display: flex; justify-content: space-between; align-items: flex-start; z-index: 460; pointer-events: none; text-shadow: 0 1px 3px #000; }
 .vf-left h1 { font: 700 18px/1.2 var(--narrow); letter-spacing: 1px; margin-top: 6px; }
 .vf-left small { display: block; font: 500 11px var(--mono); color: var(--soft); margin-top: 4px; letter-spacing: .04em; }
@@ -558,7 +560,7 @@ kbd { border: 1px solid var(--line2); padding: 0 5px; margin-right: 5px; font: 1
   .viewfinder .c { width: 26px; height: 26px; }
   .c.tl, .c.bl { left: 10px; } .c.tr, .c.br { right: 10px; } .c.tl, .c.tr { top: 10px; }
   .c.bl, .c.br { bottom: calc(var(--sheet) + var(--tabs) + 8px); }
-  .vignette { box-shadow: inset 0 0 60px #000; }
+  .vignette { box-shadow: inset 0 0 50px #000a; }
   .vf-top { left: 22px; right: 22px; top: 22px; }
   .vf-left h1 { font-size: 15px; } .vf-right, .rec { font-size: 12.5px; }
   .vf-left small { font-size: 10px; max-width: 60vw; }
