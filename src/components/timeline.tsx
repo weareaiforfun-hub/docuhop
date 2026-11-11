@@ -31,6 +31,6 @@ export function Timeline({ stops, day, onPick, now }: { stops: UiStop[]; day: nu
         </button>,
       ])}
     </div>
-    <p className="tl-note">Walking times come from OpenStreetMap routing between cinemas, with a few minutes’ wait for the ferry across the IJ. They’re estimates, without queues: we count on being seated 5 minutes before the start.</p>
+    <p className="tl-note">Walking times come from routing on <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> data (© OpenStreetMap contributors) between cinemas, with a few minutes’ wait for the ferry across the IJ. They’re estimates, without queues: we count on being seated 5 minutes before the start.</p>
   </section>;
 }

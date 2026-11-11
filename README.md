@@ -29,6 +29,8 @@ DocuHop launches without asking IDFA first, so it keeps to what is plainly lawfu
   the names and notes people typed (`setPrivate` in `src/lib/track.ts`). Keep "Your data" true when this changes.
 - Travel times between venues: `src/data/walk.json` and `bike.json`, built once with `npm run walk-matrix` (OSRM, plus
   a ferry wait across the IJ).
+  Travel times are derived from OpenStreetMap data, © OpenStreetMap contributors, and are available under the
+  [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/).
 
 ## How it holds together
 - Times are minutes after Thu 12 Nov 00:00 (Amsterdam), so all 11 days sit on one scale (`src/lib/catalogue.ts`).

@@ -257,7 +257,18 @@ export function YourData() {
     </section>
     <section>
       <h3>Services involved</h3>
-      <p>GitHub Pages hosts the site, Supabase stores the plans (in Frankfurt, in the EU), Google Fonts serves the fonts, unpkg serves the map code and PDOK (the Dutch government’s map service) serves the map. Like any website, they see your IP address when your browser loads from them.</p>
+      <p>GitHub Pages hosts the site, Supabase stores the plans (in Frankfurt, in the EU) and PDOK (the Dutch government’s map service) serves the map. Like any website, they see your IP address when your browser loads from them. The fonts and the map code come from this site itself. The usage statistics run on the maker’s own Umami, hosted by Vercel.</p>
+    </section>
+    <section>
+      <h3>Who’s responsible, and your rights</h3>
+      <ul>
+        <li><b>Responsible:</b> Arian Shafa runs DocuHop as a private, non-commercial project and is responsible for this data (the “controller” under the GDPR). Contact: <a href={CONTACT}>{CONTACT_EMAIL}</a>.</li>
+        <li><b>Why it’s kept:</b> your group’s plan is kept because you ask for it by starting or joining a group (GDPR article 6(1)(b)). The usage statistics rest on a legitimate interest in seeing what works and fixing what doesn’t (article 6(1)(f)); add ?notrack=1 to the address to switch them off.</li>
+        <li><b>Your rights:</b> you can ask to see, correct, delete or download your data, or object to the statistics. Email me and you’ll get an answer within a month. You can also complain to the <a href="https://www.autoriteitpersoonsgegevens.nl/" target="_blank" rel="noreferrer">Autoriteit Persoonsgegevens</a>, the Dutch data protection authority.</li>
+        <li><b>Outside the EU:</b> GitHub and Vercel are US companies. For data that reaches the US they rely on the EU–US Data Privacy Framework or the EU’s standard contract clauses.</li>
+        <li><b>Statistics</b> are deleted after 13 months.</li>
+        <li><b>As is:</b> DocuHop is free and offered as is. Times can be wrong, and the site can be unavailable or stop at any time.</li>
+      </ul>
     </section>
     <p className="help-note">{UNOFFICIAL} Email <a href={CONTACT}>{CONTACT_EMAIL}</a> to have your data deleted sooner.</p>
   </div>;
