@@ -225,7 +225,8 @@ export function YourData() {
         <li>A list of changes in your group, so everyone sees who changed what</li>
       </ul>
       <p><b>Just looking around?</b> Then DocuHop keeps nothing about you. An anonymous sign-in (no name, email or password) is made only when you start or join a group.</p>
-      <p><b>Not kept:</b> your phone number, email address, contacts or location. No ads, no tracking cookies and no usage statistics.</p>
+      <p><b>Not kept:</b> your phone number, email address, contacts or location. No ads and no tracking cookies.</p>
+      <p><b>Usage statistics:</b> a cookie-free counter run by DocuHop’s maker (not Google or an ad network) notes which pages and features get used, for example “a showing was added” or “the map was opened”, plus the browser, device type, country and the site or campaign link that brought you here. It never receives names, notes, search text, invite links or personal links. Add <code>?notrack=1</code> to the address to switch it off in this browser.</p>
       <p><b>Your location</b>, only if you tap LOC on the map: your phone works out the blue dot and the walking times, and the location never leaves it. It isn’t sent to your group, to DocuHop or anyone else, and it’s forgotten when you close the page. “Walk there” and Google Maps buttons hand a cinema’s address to Google Maps; Google then sees what you do there.</p>
       <p><b>Buying tickets</b> happens on IDFA’s own site. DocuHop only links there: it doesn’t see what you buy and doesn’t know whether tickets are left.</p>
       <p><b>In this browser:</b> who you are, your groups, changes waiting to sync, whether you’ve seen the welcome card, and films you skipped in Now. Clearing your browser removes them, which is why a personal link helps.</p>

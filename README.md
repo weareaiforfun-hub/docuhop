@@ -24,6 +24,9 @@ DocuHop launches without asking IDFA first, so it keeps to what is plainly lawfu
   Security per group, Realtime for live updates. Schema: `supabase/migrations/20261109200000_docuhop.sql`.
 - Programme: `data-raw/idfa-*.json` (facts only, read from IDFA's public programme) → `npm run programme` →
   `src/data/programme.json`. Venues and coordinates: `src/data/venues.json`.
+- Usage statistics: self-hosted, cookie-free Umami at stats.arian-shafa.xyz (website "DocuHop"), loaded in `index.html`
+  (copied from MuseumHop: `?notrack=1`, utm tags only, no address fragment). Click labels pass through a filter that blanks
+  the names and notes people typed (`setPrivate` in `src/lib/track.ts`). Keep "Your data" true when this changes.
 - Travel times between venues: `src/data/walk.json` and `bike.json`, built once with `npm run walk-matrix` (OSRM, plus
   a ferry wait across the IJ).
 

@@ -13,7 +13,7 @@ import { KeepSpot, OtherDevice, RecoverByEmail, TwoDoors, YourSpot } from "./com
 import { GettingAround, RideCard } from "./components/getting-around";
 import { MODES } from "./data/transport";
 import { Decide, REACTIONS, ReactionButtons, type ReactionKey } from "./components/decide";
-import { track } from "./lib/track";
+import { setPrivate, track } from "./lib/track";
 import { festivalDay, festivalMinute, useLocation, walkFrom } from "./lib/location";
 import { GoogleMapsSheet } from "./components/google-maps";
 import { ActivityInfo, useMinute } from "./components/activity-info";
@@ -46,6 +46,12 @@ const firstDay = () => festivalDay() ?? (festivalMinute() < 0 ? 1 : DAYS.length 
 
 export default function App() {
   const { data, status, userId } = useSync();
+  // Keep typed names and notes out of the click stats (see setPrivate).
+  useEffect(() => {
+    if (!data) return setPrivate([]);
+    setPrivate([...data.dh_nights.map((n) => n.name), ...data.dh_members.map((m) => m.display_name), ...data.dh_crews.map((c) => c.name),
+      ...data.dh_routes.map((r) => r.title), ...data.dh_reactions.map((r) => r.note), ...data.dh_meetups.map((m) => m.note)]);
+  }, [data]);
   const minuteNow = useMinute(), now = festivalMinute(minuteNow), today = festivalDay(minuteNow);
   const [tab, setTab] = useState<Tab>("discover"), [sheet, setSheet] = useState<Sheet>("half"), [crewSection, setCrewSection] = useState<CrewSection>("board");
   const [day, setDay] = useState(firstDay), [target, setTarget] = useState<Target>("personal"), [nowMode, setNowMode] = useState(false), [dayView, setDayView] = useState<"list" | "timeline">("list");

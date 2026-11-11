@@ -19,3 +19,12 @@ export function track(name: string, data?: Data) {
     }, 300);
   } catch { /* stats blocked */ }
 }
+
+/**
+ * Names people typed (the group, members, crews, shot lists, notes) and their initials. The click tracker in index.html
+ * labels a click with the button's text, so it blanks these out first: the stats never receive a name or a note.
+ */
+export function setPrivate(words: string[]) {
+  const all = words.flatMap((w) => { const t = (w ?? "").trim(); return t.length > 1 ? [t, t.slice(0, 2).toUpperCase()] : []; });
+  (window as unknown as { dhPrivate?: string[] }).dhPrivate = [...new Set(all)].sort((a, b) => b.length - a.length);
+}
