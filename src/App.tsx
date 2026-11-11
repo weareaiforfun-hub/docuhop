@@ -53,7 +53,7 @@ export default function App() {
       ...data.dh_routes.map((r) => r.title), ...data.dh_reactions.map((r) => r.note), ...data.dh_meetups.map((m) => m.note)]);
   }, [data]);
   const minuteNow = useMinute(), now = festivalMinute(minuteNow), today = festivalDay(minuteNow);
-  const [tab, setTab] = useState<Tab>("discover"), [sheet, setSheet] = useState<Sheet>("half"), [crewSection, setCrewSection] = useState<CrewSection>("board");
+  const [tab, setTab] = useState<Tab>("discover"), [sheet, setSheet] = useState<Sheet>("half"), [detailSize, setDetailSize] = useState<Sheet>("full"), [crewSection, setCrewSection] = useState<CrewSection>("board");
   const [day, setDay] = useState(firstDay), [target, setTarget] = useState<Target>("personal"), [nowMode, setNowMode] = useState(false), [dayView, setDayView] = useState<"list" | "timeline">("list");
   const [query, setQuery] = useState(""), [english, setEnglish] = useState(false), [doclab, setDoclab] = useState(false), [stepFree, setStepFree] = useState(false);
   const [venueFilter, setVenueFilter] = useState(""), [fromTime, setFromTime] = useState(""), [picksOnly, setPicksOnly] = useState(false), [personFilter, setPersonFilter] = useState("all"), [near, setNear] = useState(false), [filtersOpen, setFiltersOpen] = useState(false);
@@ -288,7 +288,14 @@ export default function App() {
   const chips = [english && ["English subs", () => setEnglish(false)], doclab && ["DocLab", () => setDoclab(false)], stepFree && ["Step-free", () => setStepFree(false)],
     venueFilter && [byVenue.get(venueFilter)?.short, () => setVenueFilter("")], fromTime && ["From " + fromTime + ":00", () => setFromTime("")], picksOnly && ["Picks", () => setPicksOnly(false)], near && ["Within 15 min", () => setNear(false)]]
     .filter(Boolean) as [string, () => void][];
-  function pick(e: Item) { setSelected(e); setFocus(e.venueId); setNote(suggestions.find((s) => s.event_id === e.id && s.member_id === userId)?.note || ""); if (isPhone() && sheet === "full") setSheet("half"); }
+  /** A tap on the map: on a phone the details open as a small sheet over the map; drag it up for more. */
+  function pickFromMap(e: Item) { pick(e); if (isPhone()) setDetailSize("peek"); }
+  const detailDrag = useRef<number | null>(null), detailDragged = useRef(false);
+  const resizeDetail = (up: boolean) => {
+    const order: Sheet[] = ["peek", "half", "full"], i = order.indexOf(detailSize) + (up ? 1 : -1);
+    if (i < 0) setSelected(null); else setDetailSize(order[Math.min(i, 2)]);
+  };
+  function pick(e: Item) { setDetailSize("full"); setSelected(e); setFocus(e.venueId); setNote(suggestions.find((s) => s.event_id === e.id && s.member_id === userId)?.note || ""); if (isPhone() && sheet === "full") setSheet("half"); }
   const suggesters = (id: string) => suggestions.filter((s) => s.event_id === id && s.member_id !== userId);
 
   /* ---------- the map ---------- */
@@ -369,7 +376,7 @@ export default function App() {
 
   return <main className={"app tab-is-" + tab} data-sheet={sheet}>
     <section className="map-panel" aria-label="Map">
-      <MapView transport={{ modes: shownModes, selected: ride, onSelect: (mode, stop) => setRide({ mode, stop }) }} visible={visible} lines={lines} onSelect={pick} focus={focus} fit={fit} me={loc.spot} locate={locateTick} meLabel={meLabel} now={now} zoomBy={zoomBy} />
+      <MapView transport={{ modes: shownModes, selected: ride, onSelect: (mode, stop) => setRide({ mode, stop }) }} visible={visible} lines={lines} onSelect={pickFromMap} focus={focus} fit={fit} me={loc.spot} locate={locateTick} meLabel={meLabel} now={now} zoomBy={zoomBy} />
       <div className="viewfinder" aria-hidden="true"><i className="c tl" /><i className="c tr" /><i className="c bl" /><i className="c br" /><div className="vignette" /></div>
       <div className="vf-top">
         <div className="vf-left"><span className="rec"><i className="rec-dot" />REC</span><h1 className="an">DOCUHOP · DAY {day + 1} OF {DAYS.length}</h1><small>{UNOFFICIAL.toUpperCase()}</small></div>
@@ -521,7 +528,10 @@ export default function App() {
       <Icon size={22} />{l}{k === "crew" && realMembers.length > 1 && <b className="badge">{realMembers.length - 1}</b>}{k === "day" && list.length > 0 && <b className="badge">{list.length}</b>}
     </button>)}</nav>
 
-    {selected && <div className="modal-backdrop" onClick={() => setSelected(null)}><section className="detail-modal" role="dialog" aria-modal="true" aria-label={selected.title} onClick={(e) => e.stopPropagation()}>
+    {selected && <div className={"modal-backdrop" + (detailSize !== "full" ? " sheet-mode " + detailSize : "")} onClick={() => setSelected(null)}><section className="detail-modal" role="dialog" aria-modal={detailSize === "full"} aria-label={selected.title} onClick={(e) => e.stopPropagation()}>
+      <button className="detail-grip" aria-label={detailSize === "full" ? "Show less" : "Show more"} onClick={() => { if (detailDragged.current) { detailDragged.current = false; return; } setDetailSize(detailSize === "peek" ? "half" : detailSize === "half" ? "full" : "peek"); }}
+        onPointerDown={(e) => { detailDrag.current = e.clientY; detailDragged.current = false; e.currentTarget.setPointerCapture(e.pointerId); }}
+        onPointerUp={(e) => { const y = detailDrag.current; detailDrag.current = null; if (y == null || Math.abs(e.clientY - y) < 30) return; detailDragged.current = true; resizeDetail(e.clientY < y); }}><span /></button>
       <button className="modal-close" autoFocus aria-label="Close details" onClick={() => setSelected(null)}><X size={21} /></button>
       {isVenue(selected.id) ? <>
         <span className="eyebrow">CINEMA · {info.label.toUpperCase()}</span><h2 className="an">{selected.title}</h2>

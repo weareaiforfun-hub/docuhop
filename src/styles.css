@@ -640,3 +640,15 @@ kbd { border: 1px solid var(--line2); padding: 0 5px; margin-right: 5px; font: 1
   .view-body { grid-template-columns: 1fr; }
   .view-map { height: 45vh; }
 }
+
+/* Details as a sheet on phones: a map tap opens it small (peek) over a live map; the grip drags it to half, full, or away. */
+.detail-grip { display: none; }
+@media (max-width: 899px) {
+  .detail-grip { display: block; position: sticky; top: -22px; z-index: 2; flex: none; width: calc(100% + 32px); height: 30px; margin: -22px -16px -8px; padding: 0; border: 0; background: var(--panel); cursor: grab; touch-action: none; }
+  .detail-grip span { display: block; width: 46px; height: 5px; margin: 0 auto; border-radius: 3px; background: var(--line2); }
+  .detail-modal .modal-close { z-index: 3; }
+  .modal-backdrop.sheet-mode { background: transparent; pointer-events: none; }
+  .modal-backdrop.sheet-mode .detail-modal { pointer-events: auto; box-shadow: 0 -10px 30px #000c; transition: height .2s ease; }
+  .modal-backdrop.sheet-mode.peek .detail-modal { height: 38dvh; }
+  .modal-backdrop.sheet-mode.half .detail-modal { height: 62dvh; }
+}
