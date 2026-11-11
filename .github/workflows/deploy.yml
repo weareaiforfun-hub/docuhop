@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main # after the daily refresh, publish what it just committed
       - name: Paused?
         id: mode
         run: if [ -f PAUSED ]; then echo "paused=true" >> "$GITHUB_OUTPUT"; else echo "paused=false" >> "$GITHUB_OUTPUT"; fi
