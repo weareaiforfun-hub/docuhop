@@ -57,6 +57,9 @@ npm run check-access         # 30 checks against the real database; then run scr
    (`window.__chunk(0)`, `(1)`, … give it in 20 KB pieces). It never calls IDFA's API directly.
 3. Save it as `data-raw/idfa-YYYY-MM-DD.json`, run `npm run programme` and read the change report (new, gone, moved).
    Saved plans point at show ids, so a "gone" showing drops out of people's lists: check those by hand.
+   A showing in a hall that no venue knows is left out with a warning (a few) or stops the build (more than 1 in 10 of
+   the showings still to come, which looks like renamed halls): add the hall's name, or how it starts, to that venue's
+   `halls` in `src/data/venues.json`. `npm test` checks the hall matching.
 4. Commit and push to `main`; the deploy publishes it. The "last checked" time on every page comes from the snapshot.
 
 ## Pause (if IDFA objects)
