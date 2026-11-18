@@ -9,7 +9,7 @@
     { "id": "kriterion", "name": "Kriterion", "short": "Kriterion", "address": "Roetersstraat 170", "lat": 52.36255, "lng": 4.91073, "stepFree": true, "page": "kriterion", "halls": ["Kriterion"] },
     { "id": "ketelhuis", "name": "Het Ketelhuis", "short": "Ketelhuis", "address": "Pazzanistraat 4", "lat": 52.38629, "lng": 4.87352, "stepFree": true, "page": "het-ketelhuis", "halls": ["Ketelhuis"] },
     { "id": "rialto-pijp", "name": "Rialto De Pijp", "short": "Rialto De Pijp", "address": "Ceintuurbaan 338", "lat": 52.35299, "lng": 4.89388, "stepFree": true, "page": "rialto-de-pijp", "halls": ["Rialto De Pijp"] },
-    { "id": "rialto-silo", "name": "Rialto SILO", "short": "Rialto SILO", "address": "Faas Wilkesstraat 102A", "lat": 52.37213, "lng": 4.96933, "stepFree": null, "page": "rialto-silo", "halls": ["Rialto SILO"] },
+    { "id": "rialto-silo", "name": "Rialto SILO", "short": "Rialto SILO", "address": "Faas Wilkesstraat 102A", "lat": 52.37213, "lng": 4.96933, "stepFree": null, "page": "rialto-silo", "halls": ["Rialto SILO", "SILO (Rialto)"] },
     { "id": "rialto-vu", "name": "Rialto VU Griffioen", "short": "Rialto VU", "address": "De Boelelaan 1111", "lat": 52.33489, "lng": 4.86442, "stepFree": true, "page": "rialto-vu-griffioen", "halls": ["Rialto VU"] },
     { "id": "pulse", "name": "Cinema The Pulse", "short": "The Pulse", "address": "Hildegard von Bingenstraat 4", "lat": 52.33744, "lng": 4.86640, "stepFree": true, "page": "cinema-the-pulse", "halls": ["The Pulse"] },
     { "id": "noord", "name": "Pathé Noord", "short": "Pathé Noord", "address": "Buikslotermeerplein 2003", "lat": 52.40086, "lng": 4.93442, "stepFree": true, "page": "pathé-noord", "halls": ["Pathé Noord"] },
