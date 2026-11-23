@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://docuhop.arian-shafa.xyz/sitemap.xml
